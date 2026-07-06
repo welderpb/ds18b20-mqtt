@@ -1,0 +1,24 @@
+services:
+  ds18b20-mqtt:
+    build: .
+    image: ds18b20-mqtt:latest
+    container_name: ds18b20-mqtt
+    restart: unless-stopped
+    # 1-Wire sensors are exposed via sysfs; privileged access is the simplest
+    # way to guarantee the container can read /sys/bus/w1/devices on the host.
+    privileged: true
+    volumes:
+      - /sys/bus/w1/devices:/sys/bus/w1/devices:ro
+    environment:
+      MQTT_HOST: "mosquitto"
+      MQTT_PORT: "1883"
+      MQTT_USERNAME: ""
+      MQTT_PASSWORD: ""
+      MQTT_CLIENT_ID: "ds18b20-mqtt"
+      SENSOR_NAME: "external"
+      SENSOR_UNIT: "C"
+      INTERVAL: "30"
+      STATE_TOPIC: "DS18B20/external/temp"
+      HASS_DISCOVERY_PREFIX: "homeassistant"
+      HASS_DISCOVERY: "true"
+      LOG_LEVEL: "INFO"
