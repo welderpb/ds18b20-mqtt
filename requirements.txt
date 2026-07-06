@@ -1,2 +1,2 @@
-paho-mqtt>=1.6.1,<2.0.0
+paho-mqtt>=2.1.0,<3.0.0
 w1thermsensor>=2.0.0
